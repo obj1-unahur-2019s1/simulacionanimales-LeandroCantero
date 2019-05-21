@@ -10,23 +10,62 @@ program animales {
 		 */
 	var animalActual = new Vaca()
 	game.addVisual(animalActual)
+	
+		/*
+	 	* Comederos
+	 	*/
+	 var nuevoComedero = new ComederoNormal()
+	 game.addVisual(nuevoComedero)
 		/*
 		 * configuraciones de teclado
 		 */
+	keyboard.v().onPressDo({
+		game.removeVisual(animalActual)
+		animalActual = new Vaca()
+		game.addVisual(animalActual)
+	})
+	keyboard.g().onPressDo({
+		game.removeVisual(animalActual)
+		animalActual = new Gallina()
+		game.addVisual(animalActual)
+	})
 	keyboard.c().onPressDo({ animalActual.comer(12) })
 	keyboard.p().onPressDo({ game.say(animalActual, animalActual.peso().toString()) })
 	keyboard.b().onPressDo({ animalActual.beber() })
-	keyboard.s().onPressDo({
-		if (animalActual.tieneSed()){ 
-		game.say(animalActual, "Tengo sed")
-		}
-		else{
+	keyboard.s().onPressDo({ 
+		if (animalActual.tieneSed()) {
+			game.say(animalActual, "Tengo sed")
+		} else {
 			game.say(animalActual, "No tengo sed")
 		}
-		
 	})
-			/*
-			 * arrancamos el juego
-			 */
-		game.start()
-	}
+	keyboard.h().onPressDo({
+		if (animalActual.tieneHambre()){
+			game.say(animalActual, "Tengo hambre")
+		}
+		else {
+			game.say(animalActual, "No tengo hambre")
+		}
+	})
+	
+	keyboard.up().onPressDo({
+		animalActual.movimiento()
+		animalActual.position(animalActual.position().up(1))	
+	})
+	keyboard.down().onPressDo({
+		animalActual.movimiento()
+		animalActual.position(animalActual.position().down(1))
+	})
+	keyboard.left().onPressDo({
+		animalActual.movimiento()
+		animalActual.position(animalActual.position().left(1))
+	})
+	keyboard.right().onPressDo({
+		animalActual.movimiento()
+		animalActual.position(animalActual.position().right(1))
+	})
+		/*
+		 * arrancamos el juego
+		 */
+	game.start()
+}
